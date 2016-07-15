@@ -10,7 +10,7 @@
 
 // ----------------------------------------------------------------------------
 
-#define TIMER_FREQUENCY_HZ (1000u)  /*MAX 480000*/
+#define TIMER_FREQUENCY_HZ (1000000u)  /*MAX 480000*/
 
 typedef uint32_t timer_ticks_t;
 

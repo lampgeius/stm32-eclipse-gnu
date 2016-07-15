@@ -1,15 +1,46 @@
 /********************   (C) COPYRIGHT 2013 www.armjishu.com   ********************
- * ÎÄ¼þÃû  £ºSZ_STM32F107VC_LIB.h
- * ÃèÊö    £ºÌá¹©STM32F107VCÉñÖÛIVºÅ¿ª·¢°åµÄ¿âº¯Êý
- * ÊµÑéÆ½Ì¨£ºSTM32ÉñÖÛ¿ª·¢°å
- * ×÷Õß    £ºwww.armjishu.com 
+ * ï¿½Ä¼ï¿½ï¿½ï¿½  ï¿½ï¿½SZ_STM32F107VC_LIB.h
+ * ï¿½ï¿½ï¿½ï¿½    ï¿½ï¿½ï¿½á¹©STM32F107VCï¿½ï¿½ï¿½ï¿½IVï¿½Å¿ï¿½ï¿½ï¿½ï¿½ï¿½Ä¿âº¯ï¿½ï¿½
+ * Êµï¿½ï¿½Æ½Ì¨ï¿½ï¿½STM32ï¿½ï¿½ï¿½Û¿ï¿½ï¿½ï¿½ï¿½ï¿½
+ * ï¿½ï¿½ï¿½ï¿½    ï¿½ï¿½www.armjishu.com 
 **********************************************************************************/
 /* Includes ------------------------------------------------------------------*/
 #include "stm32f10x.h"
 #include <stdio.h>
 
+#define COMn                             2
 
-/** Í¨ÓÃº¯ÊýÉùÃ÷  **/  
+/** ï¿½ï¿½ï¿½ï¿½1ï¿½Ü½ï¿½ï¿½ï¿½Ô´ï¿½ï¿½ï¿½ï¿½  **/
+#define SZ_STM32_COM1_STR                "USART1"
+#define SZ_STM32_COM1                    USART1
+#define SZ_STM32_COM1_CLK                RCC_APB2Periph_USART1
+#define SZ_STM32_COM1_TX_PIN             GPIO_Pin_9
+#define SZ_STM32_COM1_TX_GPIO_PORT       GPIOA
+#define SZ_STM32_COM1_TX_GPIO_CLK        RCC_APB2Periph_GPIOA
+#define SZ_STM32_COM1_RX_PIN             GPIO_Pin_10
+#define SZ_STM32_COM1_RX_GPIO_PORT       GPIOA
+#define SZ_STM32_COM1_RX_GPIO_CLK        RCC_APB2Periph_GPIOA
+#define SZ_STM32_COM1_IRQn               USART1_IRQn
+
+/** ï¿½ï¿½ï¿½ï¿½2ï¿½Ü½ï¿½ï¿½ï¿½Ô´ï¿½ï¿½ï¿½ï¿½ (USART2 pins remapped on GPIOD) **/
+#define SZ_STM32_COM2_STR                "USART2"
+#define SZ_STM32_COM2                    USART2
+#define SZ_STM32_COM2_CLK                RCC_APB1Periph_USART2
+#define SZ_STM32_COM2_TX_PIN             GPIO_Pin_5
+#define SZ_STM32_COM2_TX_GPIO_PORT       GPIOD
+#define SZ_STM32_COM2_TX_GPIO_CLK        RCC_APB2Periph_GPIOD
+#define SZ_STM32_COM2_RX_PIN             GPIO_Pin_6
+#define SZ_STM32_COM2_RX_GPIO_PORT       GPIOD
+#define SZ_STM32_COM2_RX_GPIO_CLK        RCC_APB2Periph_GPIOD
+#define SZ_STM32_COM2_IRQn               USART2_IRQn
+
+typedef enum
+{
+  COM1 = 0,
+  COM2 = 1
+} COM_TypeDef;
+
+/** Í¨ï¿½Ãºï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½  **/  
 void delay(__IO uint32_t nCount);
 void NVIC_GroupConfig(void);
 

@@ -1,4 +1,14 @@
 #include "SZ_STM32F107VC_LIB.h"
+
+USART_TypeDef* COM_USART[COMn] = {SZ_STM32_COM1, SZ_STM32_COM2};
+GPIO_TypeDef* COM_TX_PORT[COMn] = {SZ_STM32_COM1_TX_GPIO_PORT, SZ_STM32_COM2_TX_GPIO_PORT};
+GPIO_TypeDef* COM_RX_PORT[COMn] = {SZ_STM32_COM1_RX_GPIO_PORT, SZ_STM32_COM2_RX_GPIO_PORT};
+const uint32_t COM_USART_CLK[COMn] = {SZ_STM32_COM1_CLK, SZ_STM32_COM2_CLK};
+const uint32_t COM_TX_PORT_CLK[COMn] = {SZ_STM32_COM1_TX_GPIO_CLK, SZ_STM32_COM2_TX_GPIO_CLK};
+const uint32_t COM_RX_PORT_CLK[COMn] = {SZ_STM32_COM1_RX_GPIO_CLK, SZ_STM32_COM2_RX_GPIO_CLK};
+const uint16_t COM_TX_PIN[COMn] = {SZ_STM32_COM1_TX_PIN, SZ_STM32_COM2_TX_PIN};
+const uint16_t COM_RX_PIN[COMn] = {SZ_STM32_COM1_RX_PIN, SZ_STM32_COM2_RX_PIN};
+
 /**-------------------------------------------------------
   * @������ delay
   * @����   �򵥵�delay��ʱ����.
@@ -96,11 +106,99 @@ void NVIC_COM2Configuration(void)
 void RCC_Configuration(void)
 {
 	RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOD, ENABLE);
+	RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOA, ENABLE);
+	RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOB, ENABLE);
+	RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOC, ENABLE);
+	RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOE, ENABLE);
 	RCC_APB2PeriphClockCmd(RCC_APB2Periph_AFIO, ENABLE);
-	GPIO_PinRemapConfig(GPIO_Remap_USART2, ENABLE);
-	RCC_APB1PeriphClockCmd(RCC_APB1Periph_USART2, ENABLE);	
+//	GPIO_PinRemapConfig(GPIO_Remap_USART2, ENABLE);
+//	RCC_APB1PeriphClockCmd(RCC_APB1Periph_USART2, ENABLE);
+	GPIO_PinRemapConfig(GPIO_Remap_SPI3, ENABLE);
+	RCC_APB1PeriphClockCmd(RCC_APB1Periph_SPI3, ENABLE);
 }
 
+void __SZ_STM32_COMInit(COM_TypeDef COM, USART_InitTypeDef* USART_InitStruct)
+{
+    GPIO_InitTypeDef GPIO_InitStructure;
+
+    /* Enable GPIO clock */
+    /* ʹ��STM32��USART��ӦGPIO��Clockʱ�� */
+    RCC_APB2PeriphClockCmd(COM_TX_PORT_CLK[COM] | COM_RX_PORT_CLK[COM] | RCC_APB2Periph_AFIO, ENABLE);
+
+    if (COM == COM1)
+    {
+        /* ʹ��STM32��USART1��Clockʱ�� */
+        RCC_APB2PeriphClockCmd(COM_USART_CLK[COM], ENABLE);
+    }
+    else
+    {
+        /* Enable the USART2 Pins Software Remapping */
+        /* ʹ��STM32��USART2�Ĺܽ���ӳ�� */
+        GPIO_PinRemapConfig(GPIO_Remap_USART2, ENABLE);
+        /* ʹ��STM32��USART��Clockʱ�� */
+        RCC_APB1PeriphClockCmd(COM_USART_CLK[COM], ENABLE);
+    }
+
+    /* Configure USART Tx as alternate function push-pull */
+    /* ��ʼ��STM32��USART��TX�ܽţ�����Ϊ���ù���������� */
+    GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AF_PP;
+    GPIO_InitStructure.GPIO_Pin = COM_TX_PIN[COM];
+    GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
+    GPIO_Init(COM_TX_PORT[COM], &GPIO_InitStructure);
+
+    /* Configure USART Rx as input floating */
+    /* ��ʼ��STM32��USART��RX�ܽţ�����Ϊ���ù������� */
+    GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IN_FLOATING;
+    GPIO_InitStructure.GPIO_Pin = COM_RX_PIN[COM];
+    GPIO_Init(COM_RX_PORT[COM], &GPIO_InitStructure);
+
+    /* USART configuration */
+    /* ��ݴ���Ĳ����ʼ��STM32��USART���� */
+    USART_Init(COM_USART[COM], USART_InitStruct);
+
+    /* Enable USART */
+    /* ʹ��STM32��USART����ģ�� */
+    USART_Cmd(COM_USART[COM], ENABLE);
+}
+
+void SZ_STM32_COMInit(COM_TypeDef COM, uint32_t BaudRate)
+{
+
+    USART_InitTypeDef USART_InitStructure;
+
+    /* USARTx Ĭ������:
+          - BaudRate = 115200 baud
+          - Word Length = 8 Bits
+          - One Stop Bit
+          - No parity
+          - Hardware flow control disabled (RTS and CTS signals)
+          - Receive and transmit enabled
+    */
+    USART_InitStructure.USART_BaudRate = BaudRate;              //���ڵĲ����ʣ�����115200 ��ߴ�4.5Mbits/s
+    USART_InitStructure.USART_WordLength = USART_WordLength_8b; //����ֳ���(8λ��9λ)
+    USART_InitStructure.USART_StopBits = USART_StopBits_1;      //�����õ�ֹͣλ-֧��1��2��ֹͣλ
+    USART_InitStructure.USART_Parity = USART_Parity_No;         //����żУ��
+    USART_InitStructure.USART_HardwareFlowControl = USART_HardwareFlowControl_None; //��Ӳ��������
+    USART_InitStructure.USART_Mode = USART_Mode_Rx | USART_Mode_Tx; //˫��ģʽ��ʹ�ܷ��ͺͽ���
+
+    __SZ_STM32_COMInit(COM, &USART_InitStructure);  // ����STM32��USART��ʼ���ײ㺯��
+
+    printf("\r\n\n\n\r WWW.ARMJISHU.COM  %s printf configured....",
+  	                            (COM == COM1)? SZ_STM32_COM1_STR:SZ_STM32_COM2_STR);
+    printf("\n\r ############ WWW.ARMJISHU.COM! ############ ("__DATE__ " - " __TIME__ ")");
+
+//    printf("%s", STM32F10x_STR);
+
+    printf(" WWW.ARMJISHU.COM use __STM32F10X_STDPERIPH_VERSION %d.%d.%d",
+  			__STM32F10X_STDPERIPH_VERSION_MAIN,
+  			__STM32F10X_STDPERIPH_VERSION_SUB1,
+  			__STM32F10X_STDPERIPH_VERSION_SUB2);
+//    printf("\n\r ��Ʒ�ڲ�Flash��СΪ��%dK�ֽڣ� \t www.armjishu.com",
+//              *(__IO uint16_t*)(0x1FFFF7E0));
+    SystemCoreClockUpdate();
+    printf("\n\r (SystemCoreClock) = %uHz.\n\r",
+            SystemCoreClock);
+}
 
 /**-------------------------------------------------------
   * @������ TIM3_PWM_Init
@@ -171,7 +269,7 @@ void USART2_IRQHandler(void)
 				flag = 0;
 			}
 		}
-		USART_ClearITPendingBit(USART1, USART_IT_RXNE);
+		USART_ClearITPendingBit(USART2, USART_IT_RXNE);
 	}
 
 }
