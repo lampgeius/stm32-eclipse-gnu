@@ -1,0 +1,11 @@
+18:06:46 **** Incremental Build of configuration Debug for project wty ****
+cs-make all 
+'Invoking: Cross ARM GNU Print Size'
+arm-none-eabi-size --format=berkeley "wty.elf"
+   text	   data	    bss	    dec	    hex	filename
+  29168	   1484	    460	  31112	   7988	wty.elf
+'Finished building: wty.siz'
+' '
+
+18:06:46 Build Finished (took 485ms)
+

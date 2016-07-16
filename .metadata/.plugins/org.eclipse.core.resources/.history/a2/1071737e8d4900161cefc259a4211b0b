@@ -1,0 +1,95 @@
+/* Includes ------------------------------------------------------------------*/
+#include "stm32f10x.h"
+#include "ili9320.h"
+#include "Delay.h"
+#include "SPI.h"
+#include "usart1.h"
+#include "stdio.h"
+#include "gpio.h"
+#include "gui.h"
+void RCC_Configuration(void)
+{
+	RCC_ClocksTypeDef RCC_ClockFreq; 
+	ErrorStatus HSEStartUpStatus;
+	RCC_DeInit();                                //复位RCC到默认复位值
+	RCC_HSEConfig(RCC_HSE_ON);                   //允许使用外部晶振
+	HSEStartUpStatus = RCC_WaitForHSEStartUp();  //等候外部晶振频率正常并取标志
+	if(HSEStartUpStatus == SUCCESS)              //若外部晶振频率正常则配置PLL等等
+	{
+		RCC_HCLKConfig(RCC_SYSCLK_Div1);           // 配置AHB时钟 AHB时钟等于SYSCLK   72MHZ
+		RCC_PCLK2Config(RCC_HCLK_Div1);            // 配置高速APB时钟等于SYSCLK       72M
+		RCC_PCLK1Config(RCC_HCLK_Div2);            // 配置低速APB时钟等于SYSCLK/2     36M
+		RCC_ADCCLKConfig(RCC_PCLK2_Div4);          //配置低速ADC时钟等于SYSCLK/4      9M
+		FLASH_SetLatency(FLASH_Latency_2);         //设置读代码的延时值=2个延时周期
+		FLASH_PrefetchBufferCmd(FLASH_PrefetchBuffer_Enable);//使能预取缓冲区
+		
+		RCC_MCOConfig(RCC_MCO_HSE);                //取外部时钟频率 25MHZ
+		/* PPL2 时钟配置: PLL2CLK = (HSE / 5) * 8 = 40 MHz */ 
+		RCC_PREDIV2Config(RCC_PREDIV2_Div5); 	   
+		RCC_PLL2Config(RCC_PLL2Mul_8);
+		RCC_PLL2Cmd(ENABLE);                       //使能PLL2
+		while(RCC_GetFlagStatus(RCC_FLAG_PLL2RDY) == RESET)	    //等候直到PLL2准备好了
+		{                                          //RCC_GetFlagStatus 检查指定的RCC标志设置与否
+		}                                          //RCC_FLAG_PLLRDY   PLL2时钟就绪标志 
+		/* PPL时钟配置: PLLCLK = (PLL2 / 5)*9= 72MHz */ 
+		RCC_PREDIV1Config(RCC_PREDIV1_Source_PLL2, RCC_PREDIV1_Div5); 
+		RCC_PLLConfig(RCC_PLLSource_PREDIV1, RCC_PLLMul_9); 
+		RCC_PLLCmd(ENABLE);                        //使能PLL
+		while (RCC_GetFlagStatus(RCC_FLAG_PLLRDY) == RESET) 
+		{
+		}                                         //PLL时钟配置完成
+		RCC_SYSCLKConfig(RCC_SYSCLKSource_PLLCLK);//配置系统时钟SYSCLK=PLL时钟
+		/* 等候直到PLL时钟作为系统时钟 */
+		while(RCC_GetSYSCLKSource() != 0x08)      //HSI内部晶振 HSE外部晶振
+		{                                         //RCC_GetSYSCLKSource()返回用作系统时钟的时钟源 0x00:使用HSI作为系统时钟
+		}                                         // 0x04:使用HSE作为系统时钟 0x08:使用PLL作为系统时钟.
+	}
+	RCC_GetClocksFreq(&RCC_ClockFreq); 
+}
+
+void NVIC_Config(void)
+{
+	NVIC_InitTypeDef NVIC_InitStructure;
+	NVIC_PriorityGroupConfig(NVIC_PriorityGroup_2);
+	NVIC_InitStructure.NVIC_IRQChannel = TIM2_IRQn;
+	NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = 1;
+	NVIC_InitStructure.NVIC_IRQChannelSubPriority = 2;
+	NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;
+	NVIC_Init(&NVIC_InitStructure);
+}
+void TIME2_init(void)
+{
+    TIM_TimeBaseInitTypeDef  TIM_TimeBaseStructure;
+    RCC_APB1PeriphClockCmd(RCC_APB1Periph_TIM2,ENABLE);
+    TIM_DeInit(TIM2);            //复位定时器
+    TIM_TimeBaseStructure.TIM_Period=2;  //   //5000为1S
+	//TIM_TimeBaseStructure.TIM_RepetitionCounter=0;
+    TIM_TimeBaseStructure.TIM_Prescaler=(3600-1);            //时钟预分频  72M/36000=2KHz
+    TIM_TimeBaseStructure.TIM_ClockDivision=TIM_CKD_DIV1;     // 时钟分割
+    TIM_TimeBaseStructure.TIM_CounterMode=TIM_CounterMode_Up; //向上计数模式
+    TIM_TimeBaseInit(TIM2,&TIM_TimeBaseStructure);            //初始化定时器的值
+    TIM_ClearFlag(TIM2,TIM_FLAG_Update);                      //清除定时器中断标志 
+    TIM_ITConfig(TIM2,TIM_IT_Update,ENABLE);                  //使能中断
+    TIM_Cmd(TIM2,ENABLE);                                     //开启时钟
+}
+int main (void)
+{
+	 RCC_Configuration();
+	 Delay_Init(72);
+	 usart_init();
+	 Lcd_Configuration();
+	 GPIO_Config();
+	 SPI3_Initializtion();
+	 TIME2_init();
+	 NVIC_Config();
+	 GUI_Init();
+	 GUI_SetBkColor(GUI_RED);
+	 GUI_Clear();
+	 GUI_DispStringAt("101Hello World",10,10);
+	 GUI_CURSOR_Show();
+	//printf("1234\n\r");
+	 while(1)
+	 {
+		//GUI_Exec();
+	 }
+}

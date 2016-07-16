@@ -1,0 +1,75 @@
+ /********************   (C) COPYRIGHT 2013 www.armjishu.com   ********************
+ * ����    ���ṩSTM32F107VC����IV�ſ�����Ŀ⺯��
+ * ʵ��ƽ̨��STM32����IV�ſ�����
+ * ����    ��www.armjishu.com 
+ * �޸����ڣ�2014/03
+**********************************************************************************/
+ #include "led.h"
+
+void LED_Init(void)
+{
+    GPIO_InitTypeDef  GPIO_InitStructure;
+
+    /* ʹ��LED��ӦGPIO��Clockʱ�� */
+    RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOD, ENABLE);
+
+    /* ��ʼ��LED��GPIO�ܽţ�����Ϊ������� */				  //���ö˿�
+    GPIO_InitStructure.GPIO_Pin = GPIO_Pin_2 | GPIO_Pin_3 | 
+	GPIO_Pin_4 | GPIO_Pin_7;   //������4��led�ƹܽ�
+														 	  //���öԶ˿ڵ�ģʽ
+    GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_PP;		  //����Ϊ ����(Push-Pull)���
+														 	  //
+    GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;		  //�������ٶ�Ϊ50MHz
+
+    GPIO_Init(GPIOD, &GPIO_InitStructure);	                  //����GPIO��ʼ������
+}
+ 
+void GPIO_SPI3_Init(void)
+{
+	GPIO_InitTypeDef	GPIO_InitStructure;
+	SPI_InitTypeDef		SPI_InitStructure;
+
+	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_11|GPIO_Pin_12|GPIO_Pin_10;	 //6本来是是输入但是这里配成复用输出也有效因为他虽然设成输出，但连接的是spi，没有连接输出部分，和输入电路等效
+	GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
+	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AF_PP;
+	GPIO_Init(GPIOC, &GPIO_InitStructure);
+	//LCD SPI3片选
+	GPIO_InitStructure.GPIO_Pin = TP_CS;
+	GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
+	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_PP;
+	GPIO_Init(GPIOC, &GPIO_InitStructure);
+	//wireless 片选
+	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_12;
+	GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
+	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_PP;
+	GPIO_Init(GPIOD, &GPIO_InitStructure);
+/*
+typedef struct
+{
+	u16 SPI_Direction;
+	u16 SPI_Mode;
+	u16 SPI_DataSize;
+	u16 SPI_CPOL;
+	u16 SPI_CPHA;
+	u16 SPI_NSS;
+	u16 SPI_BaudRatePrescaler;
+	u16 SPI_FirstBit;
+	u16 SPI_CRCPolynomial;
+} SPI_InitTypeDef;
+*/
+	SPI_InitStructure.SPI_Direction = SPI_Direction_2Lines_FullDuplex;
+	SPI_InitStructure.SPI_Mode = SPI_Mode_Master;
+	SPI_InitStructure.SPI_DataSize = SPI_DataSize_8b;
+	SPI_InitStructure.SPI_CPOL = SPI_CPOL_Low;
+	SPI_InitStructure.SPI_CPHA = SPI_CPHA_1Edge;
+	SPI_InitStructure.SPI_NSS =	SPI_NSS_Soft;
+	SPI_InitStructure.SPI_BaudRatePrescaler	=  SPI_BaudRatePrescaler_8;
+	SPI_InitStructure.SPI_FirstBit = SPI_FirstBit_MSB;
+	SPI_InitStructure.SPI_CRCPolynomial	= 7;
+	SPI_Init(SPI3, &SPI_InitStructure);
+
+	GPIO_SetBits(GPIOD, GPIO_Pin_12); //wireless 片选
+	GPIO_SetBits(GPIOC, TP_CS);  //LCD SPI3片选
+	SPI_Cmd(SPI3, ENABLE);
+	debug("GPIO_SPI3_Init fin\r\n");
+}

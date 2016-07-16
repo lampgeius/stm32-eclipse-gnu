@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<section name="Workbench">
+	<item value="DEBUG" key="org.eclipse.cdt.utils.ui.controls.FileListControl"/>
+	<section name="OptionalMessageDialog.hide.">
+		<item value="0" key="askReindex.detail"/>
+	</section>
+	<section name="completion_proposal_size">
+	</section>
+	<section name="PDOMSearchPage">
+		<item value="227191" key="searchFlags"/>
+		<item value="false" key="caseSensitive"/>
+		<list key="previousPatterns">
+			<item value="Reset_TP_CS"/>
+			<item value="SPI3_WriteByte"/>
+			<item value="GPIO_Pin_2"/>
+			<item value="timer_sleep"/>
+			<item value="WM__NumInvalidWindows"/>
+			<item value="GPIO_SPI3_Init"/>
+			<item value="GPIOG"/>
+			<item value="TPReadX"/>
+			<item value="GPIO_Pin_5"/>
+			<item value="GPIO_ReadInputDataBit"/>
+			<item value="LCD_INT"/>
+			<item value="GUI_SUPPORT_CURSOR"/>
+			<item value="GUI_SUPPORT_TOUCH"/>
+			<item value="GUI_TOUCH_Exec"/>
+			<item value="GUI_TOUCH_X_MeasureX"/>
+			<item value="GUI_TOUCH_X_MeasureY"/>
+			<item value="EXTI9_5_IRQHandler"/>
+			<item value="LCD_SIMCONTROLLER"/>
+			<item value="SetSysClockToHSE"/>
+			<item value="SYSCLK_FREQ_HSE"/>
+			<item value="Systickh"/>
+			<item value="TIMER_FREQUENCY_HZ"/>
+			<item value="SysTick_Handler_User"/>
+			<item value="HardFault_Handler_C"/>
+			<item value="HardFault_Handler"/>
+			<item value="NVIC_SetVectorTable"/>
+			<item value="OS_USE_TRACE_ITM"/>
+			<item value="__DEBUG_BKPT"/>
+			<item value="OS_CRITICAL_METHOD"/>
+			<item value="HAL"/>
+			<item value="NVIC_SetPriority"/>
+			<item value="HSE_VALUE"/>
+			<item value="GPIO_Pin_4"/>
+			<item value="SysTick_Config"/>
+			<item value="RCC_Configuration"/>
+			<item value="SysTick_ITConfig"/>
+			<item value="SetSysClock"/>
+			<item value="SetSysClockTo72"/>
+			<item value="TimingDelay"/>
+			<item value="RCC_APB2PeriphClockCmd"/>
+			<item value="__STDC_HOSTED__"/>
+			<item value="_write"/>
+			<item value="_open"/>
+			<item value="USART_SendData"/>
+			<item value="write_r"/>
+			<item value="_write_r"/>
+			<item value="SysTick_Handler"/>
+			<item value="TimingDelay_Decrement"/>
+			<item value="STM32F10X_CL"/>
+			<item value="Please"/>
+			<item value="Pleaseselectfirst"/>
+			<item value="STM32F10X_LD_VC"/>
+			<item value="STM32F10X_*"/>
+			<item value="USE_STDPERIPH_DRIVER"/>
+		</list>
+	</section>
+	<section name="org.eclipse.cdt.internal.ui.typehierarchy.OpenTypeInHierarchyActionSettings">
+		<item value="true" key="show_structs"/>
+		<item value="true" key="show_lowlevel"/>
+		<item value="false" key="show_macros"/>
+		<item value="false" key="show_variables"/>
+		<item value="485" key="width"/>
+		<item value="false" key="show_functions"/>
+		<item value="true" key="show_enums"/>
+		<item value="744" key="height"/>
+		<item value="true" key="show_classes"/>
+		<item value="true" key="show_typedefs"/>
+		<item value="false" key="show_namespaces"/>
+		<item value="true" key="show_unions"/>
+		<item value="false" key="show_enumerators"/>
+		<item value="24" key="y"/>
+		<item value="476" key="x"/>
+	</section>
+	<section name="org.eclipse.cdt.ui.text.hover.CMacroExpansionExploration.internal">
+		<item value="671" key="size.width"/>
+		<item value="135" key="size.height"/>
+	</section>
+	<section name="org.eclipse.cdt.ui.OPEN_ACTION_SELECTION_DIALOG_SECTION">
+		<item value="514" key="DIALOG_WIDTH"/>
+		<item value="14" key="DIALOG_Y_ORIGIN"/>
+		<item value="396" key="DIALOG_X_ORIGIN"/>
+		<item value="559" key="DIALOG_HEIGHT"/>
+		<item value="1|Ubuntu|11.0|0|GTK|1|" key="DIALOG_FONT_NAME"/>
+	</section>
+	<section name="org.eclipse.cdt.ui.text.hover.CMacroExpansionExploration">
+	</section>
+</section>

@@ -1,0 +1,6 @@
+11:45:21 **** Build of configuration Default for project stm32f107vc ****
+make all 
+make: *** 没有规则可以创建目标“all”。 停止。
+
+11:45:21 Build Finished (took 77ms)
+

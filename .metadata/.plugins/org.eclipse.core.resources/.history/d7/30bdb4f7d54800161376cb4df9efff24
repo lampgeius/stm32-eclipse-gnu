@@ -1,0 +1,12 @@
+#ifndef __TOUCH_H
+#define __TOUCH_H
+#include "GUI.h"
+#include "stm32f10x.h"
+#define LCD_PEN	GPIO_ReadInputDataBit(GPIOB, GPIO_Pin_5)
+u32 last_x = 0;
+u32 last_y = 0;
+
+
+
+ void GPIO_SPI3_Init(void);
+#endif

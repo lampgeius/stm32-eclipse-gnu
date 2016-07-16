@@ -1,0 +1,11 @@
+14:05:23 **** Incremental Build of configuration Debug for project printf-sample ****
+make all 
+Invoking: Cross ARM GNU Print Size
+arm-none-eabi-size --format=berkeley "printf-sample.elf"
+   text	   data	    bss	    dec	    hex	filename
+  26404	   2304	    496	  29204	   7214	printf-sample.elf
+Finished building: printf-sample.siz
+ 
+
+14:05:24 Build Finished (took 64ms)
+

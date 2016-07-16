@@ -1,0 +1,6 @@
+14:57:05 **** Incremental Build of configuration Default for project printf ****
+make all 
+make: *** 没有规则可以创建目标“all”。 停止。
+
+14:57:05 Build Finished (took 60ms)
+
