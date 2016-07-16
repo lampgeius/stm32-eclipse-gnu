@@ -37,6 +37,7 @@ UCGUI/JPEG \
 UCGUI/LCDDriver \
 UCGUI/MemDev \
 UCGUI/MultiLayer \
+UCGUI/Touch \
 UCGUI/WM \
 UCGUI/Widget \
 src \

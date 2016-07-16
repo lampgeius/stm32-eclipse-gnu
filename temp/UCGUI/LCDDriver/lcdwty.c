@@ -38,7 +38,7 @@
 
 /* LCDģ����оƬID */
 static  __IO uint16_t DeviceIdCode;
-
+static void Lcd_Shortdelay(void);
 /*******************************************************************************
 * ������         : LCD_DB_AS_InPut
 * ������       : ��16������ź�������Ϊ����ģʽ
@@ -46,14 +46,10 @@ static  __IO uint16_t DeviceIdCode;
 * �������       : ��
 * ����ֵ         : ��.
 *******************************************************************************/
-void LCD_DB_AS_InPut(void)
+__inline void LCD_DB_AS_InPut(void)
 {
-  GPIO_InitTypeDef GPIO_InitStructure;
-
-  // DB15--0
-  GPIO_InitStructure.GPIO_Pin = LCD_PIN_DATA;
-  GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IN_FLOATING;
-  GPIO_Init(LCD_PORT_DAT, &GPIO_InitStructure);
+    GPIOE->CRH = 0x44444444;
+	GPIOE->CRL = 0x44444444;
 }
 
 /*******************************************************************************
@@ -63,15 +59,10 @@ void LCD_DB_AS_InPut(void)
 * �������       : ��
 * ����ֵ         : ��.
 *******************************************************************************/
-void LCD_DB_AS_OutPut(void)
+__inline void LCD_DB_AS_OutPut(void)
 {
-  GPIO_InitTypeDef GPIO_InitStructure;
-
-  /* ���ý�16������ź���*/
-  GPIO_InitStructure.GPIO_Pin = LCD_PIN_DATA;
-  GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
-  GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_PP;
-  GPIO_Init(LCD_PORT_DAT, &GPIO_InitStructure);
+    GPIOE->CRH = 0x33333333;
+    GPIOE->CRL = 0x33333333;
 }
 
 /****************************************************************************
@@ -89,7 +80,7 @@ void SZ_STM32_LCDInit(void)
     LCD_Pins_Config();
 
     LCD_WriteReg(0x0000,0x0001);          //�����ڲ�����
-    timer_sleep(50); /* Delay 50 ms */
+    timer_sleep(50000); /* Delay 50 ms */
     DeviceIdCode = LCD_ReadReg(0x0000);   //��ȡоƬID
 	//printf("0x%x",DeviceIdCode);
 	//DeviceIdCode =  0x8989;
@@ -109,9 +100,9 @@ void SZ_STM32_LCDInit(void)
         LCD_WriteReg(0x0d,0x0000);      //Frame Maker Position.
         LCD_WriteReg(0x0f,0x0000);      //Extern Display Interface Contral 2.
     
-        timer_sleep(50);
+        timer_sleep(50000);
         LCD_WriteReg(0x07,0x0101);      //Display Contral.
-        timer_sleep(50);
+        timer_sleep(50000);
     
         LCD_WriteReg(0x10,(1<<12)|(0<<8)|(1<<7)|(1<<6)|(0<<4));     //Power Control 1.(0x16b0)
         LCD_WriteReg(0x11,0x0007);                                  //Power Control 2.(0x0001)
@@ -142,9 +133,9 @@ void SZ_STM32_LCDInit(void)
         LCD_WriteReg(0x95,0x0110);      //Frame Cycle Contral.(0x0110)
         LCD_WriteReg(0x97,(0<<8));      //
         LCD_WriteReg(0x98,0x0000);      //Frame Cycle Contral.
-        timer_sleep(5);
+        timer_sleep(5000);
         LCD_WriteReg(0x07,0x0173);      //(0x0173)
-        timer_sleep(5);
+        timer_sleep(5000);
     }
 	else if(DeviceIdCode==0x8989)
     {
@@ -213,24 +204,24 @@ void SZ_STM32_LCDInit(void)
         LCD_WriteReg(0x0011,0x0007);
         LCD_WriteReg(0x0012,0x0000);                                                                 
         LCD_WriteReg(0x0013,0x0000);                 
-        timer_sleep(5);
-        timer_sleep(5);
+        timer_sleep(5000);
+        timer_sleep(5000);
         LCD_WriteReg(0x0010,0x1590);   
         LCD_WriteReg(0x0011,0x0227);
-        timer_sleep(5);
-        timer_sleep(5);
+        timer_sleep(5000);
+        timer_sleep(5000);
         LCD_WriteReg(0x0012,0x009c);                  
-        timer_sleep(5);
-        timer_sleep(5);
+        timer_sleep(5000);
+        timer_sleep(5000);
         LCD_WriteReg(0x0013,0x1900);   
         LCD_WriteReg(0x0029,0x0023);
         LCD_WriteReg(0x002b,0x000e);
-        timer_sleep(5);
-        timer_sleep(5);
+        timer_sleep(5000);
+        timer_sleep(5000);
         LCD_WriteReg(0x0020,0x0000);                                                            
         LCD_WriteReg(0x0021,0x0000);           
-        timer_sleep(5);
-        timer_sleep(5);
+        timer_sleep(5000);
+        timer_sleep(5000);
         LCD_WriteReg(0x0030,0x0007); 
         LCD_WriteReg(0x0031,0x0707);   
         LCD_WriteReg(0x0032,0x0006);
@@ -241,8 +232,8 @@ void SZ_STM32_LCDInit(void)
         LCD_WriteReg(0x0039,0x0706);     
         LCD_WriteReg(0x003c,0x0701);
         LCD_WriteReg(0x003d,0x000f);
-        timer_sleep(5);
-        timer_sleep(5);
+        timer_sleep(5000);
+        timer_sleep(5000);
         LCD_WriteReg(0x0050,0x0000);        
         LCD_WriteReg(0x0051,0x00ef);   
         LCD_WriteReg(0x0052,0x0000);     
@@ -289,16 +280,16 @@ void SZ_STM32_LCDInit(void)
         LCD_WriteReg(0x0011, 0x0007);   // DC1[2:0], DC0[2:0], VC[2:0]
         LCD_WriteReg(0x0012, 0x0000);   // VREG1OUT voltage
         LCD_WriteReg(0x0013, 0x0000);   // VDV[4:0] for VCOM amplitude
-        timer_sleep(5); // Dis-charge capacitor power voltage
+        timer_sleep(5000); // Dis-charge capacitor power voltage
         LCD_WriteReg(0x0010, 0x1690);   // SAP, BT[3:0], AP, DSTB, SLP, STB
         LCD_WriteReg(0x0011, 0x0227);   // DC1[2:0], DC0[2:0], VC[2:0]
-        timer_sleep(2); // Delay 50ms
+        timer_sleep(2000); // Delay 50ms
         LCD_WriteReg(0x0012, 0x000C);   // Internal reference voltage= Vci;
-        timer_sleep(2); // Delay 50ms
+        timer_sleep(2000); // Delay 50ms
         LCD_WriteReg(0x0013, 0x0800);   // Set VDV[4:0] for VCOM amplitude
         LCD_WriteReg(0x0029, 0x0011);   // Set VCM[5:0] for VCOMH
         LCD_WriteReg(0x002B, 0x000B);   // Set Frame Rate
-        timer_sleep(2); // Delay 50ms
+        timer_sleep(2000); // Delay 50ms
         LCD_WriteReg(0x0020, 0x0000);   // GRAM horizontal Address
         LCD_WriteReg(0x0021, 0x0000);   // GRAM Vertical Address
         // ----------- Adjust the Gamma Curve ----------//
@@ -331,11 +322,11 @@ void SZ_STM32_LCDInit(void)
         LCD_WriteReg(0x0090, 0x0010);
         LCD_WriteReg(0x0092, 0x0600);
         LCD_WriteReg(0x0007,0x0021);        
-        timer_sleep(2);
+        timer_sleep(2000);
         LCD_WriteReg(0x0007,0x0061);
-        timer_sleep(2);
+        timer_sleep(2000);
         LCD_WriteReg(0x0007,0x0133);    // 262K color and display ON
-        timer_sleep(2);
+        timer_sleep(2000);
     }
     else if(DeviceIdCode==0x9919)
     {
@@ -379,7 +370,7 @@ void SZ_STM32_LCDInit(void)
     {
         // second release on 3/5  ,luminance is acceptable,water wave appear during camera preview
         LCD_WriteReg(0x0007,0x0000);
-        timer_sleep(2);
+        timer_sleep(2000);
         LCD_WriteReg(0x0012,0x011C);    //0x011A   why need to set several times?
         LCD_WriteReg(0x00A4,0x0001);    //NVM
         LCD_WriteReg(0x0008,0x000F);
@@ -401,10 +392,10 @@ void SZ_STM32_LCDInit(void)
         LCD_WriteReg(0x003B,0x0000);    //0x0303
         LCD_WriteReg(0x003C,0x0007);    //?0x0707
         LCD_WriteReg(0x003D,0x0000);    //0x1313//0x1f08
-        timer_sleep(2);
+        timer_sleep(2000);
         LCD_WriteReg(0x0007,0x0001);
         LCD_WriteReg(0x0017,0x0001);    //Power supply startup enable
-        timer_sleep(2);
+        timer_sleep(2000);
   
         //power control//
         LCD_WriteReg(0x0010,0x17A0); 
@@ -447,11 +438,11 @@ void SZ_STM32_LCDInit(void)
         LCD_WriteReg(0x0020,0x0000); 
         LCD_WriteReg(0x0021,0x0000); 
         LCD_WriteReg(0x0007,0x0021); 
-        timer_sleep(2);
+        timer_sleep(2000);
         LCD_WriteReg(0x0007,0x0061); 
-        timer_sleep(2);
+        timer_sleep(2000);
         LCD_WriteReg(0x0007,0x0173); 
-        timer_sleep(2);
+        timer_sleep(2000);
     }                             
     else
     {
@@ -493,8 +484,10 @@ void LCD_Clear(uint16_t Color)
 *******************************************************************************/
 void LCD_SetCursor(uint16_t Xpos, uint16_t Ypos)
 {
-			LCD_WriteReg(0x0020,Xpos);      // ��
-			LCD_WriteReg(0x0021,Ypos);// ��
+//			LCD_WriteReg(0x0020,Xpos);      // ��
+//			LCD_WriteReg(0x0021,Ypos);// ��
+			LCD_WriteReg(0x0020,Ypos);      // ��
+			LCD_WriteReg(0x0021,0x13f-Xpos);// ��
 }
 
 
@@ -503,7 +496,7 @@ void LCD_SetCursor(uint16_t Xpos, uint16_t Ypos)
   * @param  LCD_Reg: address of the selected register.
   * @retval None
   */
-void LCD_WriteRegIndex(uint8_t LCD_Reg)
+__inline void LCD_WriteRegIndex(uint8_t LCD_Reg)
 {
     ClrCs
     ClrRs
@@ -513,33 +506,50 @@ void LCD_WriteRegIndex(uint8_t LCD_Reg)
     SetCs
 }
 
-/*******************************************************************************
-* ������         : LCD_ReadReg
-* ������       : ��ȡ��ѡ��TFT�����Ĵ��������
-* ����LCD_Reg    : ��Ҫ��ȡ�ļĴ���
-* ����ֵ         : �Ĵ����е���ֵ.
-*******************************************************************************/
-uint16_t LCD_ReadReg(uint8_t LCD_Reg)
+//========================================================================
+// **                                                                    **
+// ** nCS       ----\__________________________________________/-------  **
+// ** RS        ------\____________/-----------------------------------  **
+// ** nRD       -------------------------\_____/---------------------  **
+// ** nWR       --------\_______/--------------------------------------  **
+// ** DB[0:15]  ---------[index]----------[data]-----------------------  **
+// **                                                                    **
+//========================================================================
+__inline uint16_t LCD_ReadReg(uint8_t LCD_Reg)
 {
     uint16_t data;
 
     /* Write 16-bit Index (then Read Reg) */
     ClrCs
     ClrRs
+	SetRd //add
     ClrWr
     LCD_Write(LCD_Reg);
     SetWr
-
+#if 1
     LCD_DB_AS_InPut();
-
     /* Read 16-bit Reg */
     SetRs
     ClrRd
     SetRd
+	Lcd_Shortdelay();
     data = LCD_Read(); 
+    data = LCD_Read();
     SetCs
     LCD_DB_AS_OutPut();
-
+#else
+	SetRs;
+	SetWr;
+	ClrRd;
+    GPIOE->CRH = 0x44444444;
+	GPIOE->CRL = 0x44444444;
+	Lcd_Shortdelay();
+	data = GPIOE->IDR;
+	data = GPIOE->IDR;
+	GPIOE->CRH = 0x33333333;
+	GPIOE->CRL = 0x33333333;
+	SetRd;
+#endif
     return    data;
 }
 
@@ -556,7 +566,7 @@ uint16_t LCD_ReadReg(uint8_t LCD_Reg)
 * ����LCD_Reg    : ��Ҫ��ȡ�ļĴ���
 * ����ֵ         : �Ĵ����е���ֵ.
 *******************************************************************************/
-void LCD_WriteRAM_Prepare(void)
+__inline void LCD_WriteRAM_Prepare(void)
 {
     /* Write 16-bit Index, then Write Reg */
     ClrCs
@@ -573,7 +583,7 @@ void LCD_WriteRAM_Prepare(void)
   * @param  RGB_Code: the pixel color in RGB mode (5-6-5).
   * @retval None
   */
-void LCD_WriteRAMWord(uint16_t RGB_Code)
+__inline void LCD_WriteRAMWord(uint16_t RGB_Code)
 {
     LCD_WriteRAM_Prepare();
     LCD_WriteRAM(RGB_Code);
@@ -587,9 +597,9 @@ void LCD_WriteRAMWord(uint16_t RGB_Code)
 * ����LCD_Reg    : ָ��д������ֵ
 * ����ֵ         : ��.
 *******************************************************************************/
+#if 1
 void LCD_WriteReg(uint8_t LCD_Reg, uint16_t LCD_RegValue)
 {
-
     /* Write 16-bit Index, then Write Reg */
     ClrCs
     ClrRs
@@ -603,14 +613,33 @@ void LCD_WriteReg(uint8_t LCD_Reg, uint16_t LCD_RegValue)
     SetWr
     SetCs
 }
+#else
+void LCD_WriteReg(uint8_t LCD_Reg, uint16_t LCD_RegValue)
+{
 
+    /* Write 16-bit Index, then Write Reg */
+    ClrCs
+    ClrRs
+	SetRd
+    LCD_Write(LCD_Reg);
+    ClrWr
+	SetWr
+    /* Write 16-bit Reg */
+    SetRs
+	SetRd
+    LCD_Write(LCD_RegValue);
+    ClrWr
+    SetWr
+    SetCs
+}
+#endif
 
 /**
   * @brief  Writes to the LCD RAM.
   * @param  RGB_Code: the pixel color in RGB mode (5-6-5).
   * @retval None
   */
-void LCD_WriteRAM(uint16_t RGB_Code)
+__inline void LCD_WriteRAM(uint16_t RGB_Code)
 {
     ClrWr
     LCD_Write(RGB_Code);
@@ -834,6 +863,27 @@ void GUI_Line(u16 x0, u16 y0, u16 x1, u16 y1,u16 color)
  	}
 }
 
+
+
+__inline u16 ili9320_BGR2RGB(u16 c)
+{
+  u16  r, g, b, rgb;
+
+  b = (c>>0)  & 0x1f;
+  g = (c>>5)  & 0x3f;
+  r = (c>>11) & 0x1f;
+
+  rgb =  (b<<11) + (g<<5) + (r<<0);
+
+  return( rgb );
+}
+#if	0			//read point mode
+
+u16 ili9320_GetPoint(int x, int y) {
+	LCD_SetCursor(x,y);
+	return (ili9320_BGR2RGB(LCD_ReadReg(0x0022)));
+}
+
 void ili9320_SetPoint(u16 x,u16 y,u16 point)
 {
   if ( (x>LCD_XSIZE)||(y>LCD_YSIZE) ) return;
@@ -848,13 +898,79 @@ void ili9320_SetPoint(u16 x,u16 y,u16 point)
 //  ili9320_WriteData(point);
 //  Set_Cs;
 }
+#else
 
-u16 ili9320_GetPoint(int x, int y) {
-  u16 temp;
-  LCD_SetCursor(x,y);
-  temp = LCD_ReadReg(0x0022);
-  return (temp);
+__inline void ili9320_WriteIndex(u16 idx);
+__inline void ili9320_WriteIndex(u16 idx)
+{
+    ClrRs;
+	SetRd;
+	GPIOE->ODR = idx;
+	ClrWr;
+	SetWr;
 }
 
+static void Lcd_Shortdelay(void)
+{
+  volatile u32 index = 0;
+  for(index = 10; index != 0; index--)
+  {
+  }
+}
+
+__inline u16 ili9320_ReadData(void);
+__inline u16 ili9320_ReadData(void)
+{
+//========================================================================
+// **                                                                    **
+// ** nCS       ----\__________________________________________/-------  **
+// ** RS        ------\____________/-----------------------------------  **
+// ** nRD       -------------------------\_____/---------------------  **
+// ** nWR       --------\_______/--------------------------------------  **
+// ** DB[0:15]  ---------[index]----------[data]-----------------------  **
+// **                                                                    **
+//========================================================================
+	unsigned short val = 0;
+	SetRs;
+	SetWr;
+	ClrRd;
+    GPIOE->CRH = 0x44444444;
+	GPIOE->CRL = 0x44444444;
+	Lcd_Shortdelay();
+	val = GPIOE->IDR;
+	val = GPIOE->IDR;
+	GPIOE->CRH = 0x33333333;
+	GPIOE->CRL = 0x33333333;
+	SetRd;
+	return val;
+}
+
+__inline void ili9320_WriteData(u16 data);
+__inline void ili9320_WriteData(u16 data)
+{
+	SetRs;
+	SetRd;
+  	GPIOE->ODR = data;
+	ClrWr;
+	SetWr;
+}
+
+void ili9320_SetPoint(u16 x,u16 y,u16 point)
+{
+  if ( (x>320)||(y>240) ) return;
+  LCD_SetCursor(x,y);
+  LCD_WriteReg(0x0022, point);
+
+}
+
+u16 ili9320_GetPoint(int x, int y) {
+    u16 temp;
+    LCD_SetCursor(x,y);
+
+    temp = LCD_ReadReg(0x0022);
+    temp = LCD_ReadReg(0x0022);
+    return ili9320_BGR2RGB(temp);
+}
+#endif
 
 /*******************  (C) COPYRIGHT 2013 www.armjishu.com  *****END OF FILE****/

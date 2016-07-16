@@ -16,6 +16,7 @@ RM := rm -rf
 -include src/subdir.mk
 -include UCGUI/Widget/subdir.mk
 -include UCGUI/WM/subdir.mk
+-include UCGUI/Touch/subdir.mk
 -include UCGUI/MultiLayer/subdir.mk
 -include UCGUI/MemDev/subdir.mk
 -include UCGUI/LCDDriver/subdir.mk

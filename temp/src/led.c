@@ -1,8 +1,8 @@
  /********************   (C) COPYRIGHT 2013 www.armjishu.com   ********************
- * ÃèÊö    £ºÌá¹©STM32F107VCÉñÖÛIVºÅ¿ª·¢°åµÄ¿âº¯Êý
- * ÊµÑéÆ½Ì¨£ºSTM32ÉñÖÛIVºÅ¿ª·¢°å
- * ×÷Õß    £ºwww.armjishu.com 
- * ÐÞ¸ÄÈÕÆÚ£º2014/03
+ * ï¿½ï¿½ï¿½ï¿½    ï¿½ï¿½ï¿½á¹©STM32F107VCï¿½ï¿½ï¿½ï¿½IVï¿½Å¿ï¿½ï¿½ï¿½ï¿½ï¿½Ä¿âº¯ï¿½ï¿½
+ * Êµï¿½ï¿½Æ½Ì¨ï¿½ï¿½STM32ï¿½ï¿½ï¿½ï¿½IVï¿½Å¿ï¿½ï¿½ï¿½ï¿½ï¿½
+ * ï¿½ï¿½ï¿½ï¿½    ï¿½ï¿½www.armjishu.com 
+ * ï¿½Þ¸ï¿½ï¿½ï¿½ï¿½Ú£ï¿½2014/03
 **********************************************************************************/
  #include "led.h"
 
@@ -10,17 +10,19 @@ void LED_Init(void)
 {
     GPIO_InitTypeDef  GPIO_InitStructure;
 
-    /* Ê¹ÄÜLED¶ÔÓ¦GPIOµÄClockÊ±ÖÓ */
-    RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOD, ENABLE);
+    /* Ê¹ï¿½ï¿½LEDï¿½ï¿½Ó¦GPIOï¿½ï¿½ClockÊ±ï¿½ï¿½ */
+//    RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOD, ENABLE);
 
-    /* ³õÊ¼»¯LEDµÄGPIO¹Ü½Å£¬ÅäÖÃÎªÍÆÍìÊä³ö */				  //ÉèÖÃ¶Ë¿Ú
+    /* ï¿½ï¿½Ê¼ï¿½ï¿½LEDï¿½ï¿½GPIOï¿½Ü½Å£ï¿½ï¿½ï¿½ï¿½ï¿½Îªï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ */				  //ï¿½ï¿½ï¿½Ã¶Ë¿ï¿½
     GPIO_InitStructure.GPIO_Pin = GPIO_Pin_2 | GPIO_Pin_3 | 
-	GPIO_Pin_4 | GPIO_Pin_7;   //¶¨ÒåÁË4¸öledµÆ¹Ü½Å
-														 	  //ÉèÖÃ¶Ô¶Ë¿ÚµÄÄ£Ê½
-    GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_PP;		  //ÉèÖÃÎª ÍÆÍì(Push-Pull)Êä³ö
+	GPIO_Pin_4 | GPIO_Pin_7;   //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½4ï¿½ï¿½ledï¿½Æ¹Ü½ï¿½
+														 	  //ï¿½ï¿½ï¿½Ã¶Ô¶Ë¿Úµï¿½Ä£Ê½
+    GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_PP;		  //ï¿½ï¿½ï¿½ï¿½Îª ï¿½ï¿½ï¿½ï¿½(Push-Pull)ï¿½ï¿½ï¿½
 														 	  //
-    GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;		  //×î´óÊä³öËÙ¶ÈÎª50MHz
+    GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;		  //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ù¶ï¿½Îª50MHz
 
-    GPIO_Init(GPIOD, &GPIO_InitStructure);	                  //µ÷ÓÃGPIO³õÊ¼»¯º¯Êý
+    GPIO_Init(GPIOD, &GPIO_InitStructure);	                  //ï¿½ï¿½ï¿½ï¿½GPIOï¿½ï¿½Ê¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 }
  
+
+

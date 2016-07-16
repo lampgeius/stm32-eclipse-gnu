@@ -47,6 +47,7 @@ void NVIC_GroupConfig(void);
    
 void RCC_Configuration(void);
 void NVIC_COM2Configuration(void);
+void SZ_STM32_COMInit(COM_TypeDef COM, uint32_t BaudRate);
 void GPIO_COM_Init(void);
 
 

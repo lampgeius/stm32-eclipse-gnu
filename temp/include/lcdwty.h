@@ -1,8 +1,8 @@
 /******************** (C) COPYRIGHT 2013 www.armjishu.com  ********************
- * ÎÄ¼þÃû  £ºlcd.h
- * ÃèÊö    £ºÌá¹©STM32F107VCÉñÖÛIVºÅ¿ª·¢°åµÄTFT_LCD²ÊÆÁÏà¹Ø¿âº¯Êý
- * ÊµÑéÆ½Ì¨£ºSTM32ÉñÖÛ¿ª·¢°å
- * ×÷Õß    £ºwww.armjishu.com 
+ * ï¿½Ä¼ï¿½ï¿½ï¿½  ï¿½ï¿½lcd.h
+ * ï¿½ï¿½ï¿½ï¿½    ï¿½ï¿½ï¿½á¹©STM32F107VCï¿½ï¿½ï¿½ï¿½IVï¿½Å¿ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½TFT_LCDï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ø¿âº¯ï¿½ï¿½
+ * Êµï¿½ï¿½Æ½Ì¨ï¿½ï¿½STM32ï¿½ï¿½ï¿½Û¿ï¿½ï¿½ï¿½ï¿½ï¿½
+ * ï¿½ï¿½ï¿½ï¿½    ï¿½ï¿½www.armjishu.com 
 *******************************************************************************/
 #ifdef __cplusplus
  extern "C" {
@@ -10,7 +10,7 @@
 
 #include "stm32f10x.h"
 
-/* ÉñÖÛIVºÅLCD¹Ü½ÅÏà¹Ø¶¨Òå  www.armjishu.com Team  */ 
+/* ï¿½ï¿½ï¿½ï¿½IVï¿½ï¿½LCDï¿½Ü½ï¿½ï¿½ï¿½Ø¶ï¿½ï¿½ï¿½  www.armjishu.com Team  */ 
 #define LCD_PinNum_WR               14
 #define LCD_Pin_WR                  GPIO_Pin_14
 #define LCD_PORT_WR                 GPIOB
@@ -37,7 +37,8 @@
 #define LCD_CLK_DATA                RCC_APB2Periph_GPIOE
 
 
-/* ÉñÖÛIVºÅLCD¼Ä´æÆ÷Ïà¹Ø¶¨Òå  LCD Registers  www.armjishu.com Team  */ 
+
+ /* ï¿½ï¿½ï¿½ï¿½IVï¿½ï¿½LCDï¿½Ä´ï¿½ï¿½ï¿½ï¿½ï¿½Ø¶ï¿½ï¿½ï¿½  LCD Registers  www.armjishu.com Team  */
 #define LCD_REG_0             0x00
 #define LCD_REG_1             0x01
 #define LCD_REG_2             0x02
@@ -147,7 +148,7 @@
 #define LCD_REG_193           0xC1
 #define LCD_REG_229           0xE5
 
-/* ÉñÖÛIVºÅLCD²ÊÆÁ³£ÓÃ»ù±¾ÑÕÉ«¶¨Òå  LCD color   www.armjishu.com Team  */ 
+/* ï¿½ï¿½ï¿½ï¿½IVï¿½ï¿½LCDï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ã»ï¿½ï¿½ï¿½É«ï¿½ï¿½ï¿½ï¿½  LCD color   www.armjishu.com Team  */ 
 #define LCD_COLOR_WHITE          0xFFFF
 #define LCD_COLOR_BLACK          0x0000
 #define LCD_COLOR_GREY           0xE79C
@@ -159,17 +160,17 @@
 #define LCD_COLOR_CYAN           0x7FFF
 #define LCD_COLOR_YELLOW         0xFFE0
 
-/* ÉñÖÛIVºÅLCD²ÊÆÁ»­ÏßµÈº¯ÊýµÄ·½ÏòDirection¶¨Òå   www.armjishu.com Team  */ 
+/* ï¿½ï¿½ï¿½ï¿½IVï¿½ï¿½LCDï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ßµÈºï¿½ï¿½ï¿½Ä·ï¿½ï¿½ï¿½Directionï¿½ï¿½ï¿½ï¿½   www.armjishu.com Team  */ 
 #define LCD_DIR_HORIZONTAL       0x0000
 #define LCD_DIR_VERTICAL         0x0001
 
-/* ÉñÖÛIVºÅLCD²ÊÆÁ·Ö±æÂÊ¶¨Òå  ¿íºÍ¸ß   www.armjishu.com Team  */ 
-#define LCD_PIXEL_WIDTH          0x0140  /* ¿í320 */
-#define LCD_PIXEL_HEIGHT         0x00F0  /* ¸ß240 */
+/* ï¿½ï¿½ï¿½ï¿½IVï¿½ï¿½LCDï¿½ï¿½ï¿½ï¿½ï¿½Ö±ï¿½ï¿½Ê¶ï¿½ï¿½ï¿½  ï¿½ï¿½Í¸ï¿½   www.armjishu.com Team  */ 
+#define LCD_PIXEL_WIDTH          0x0140  /* ï¿½ï¿½320 */
+#define LCD_PIXEL_HEIGHT         0x00F0  /* ï¿½ï¿½240 */
 
 
-/* ÉñÖÛIVºÅLCD²ÊÆÁº¯ÊýÉùÃ÷   www.armjishu.com Team  */ 
-void SZ_STM32_LCDInit(void);
+/* ï¿½ï¿½ï¿½ï¿½IVï¿½ï¿½LCDï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½   www.armjishu.com Team  */ 
+ void SZ_STM32_LCDInit(void);
 void LCD_SetCursor(uint16_t Xpos, uint16_t Ypos);
 void LCD_Clear(uint16_t Color);
 
@@ -182,6 +183,7 @@ uint16_t LCD_ReadReg(uint8_t LCD_Reg);
 void LCD_WriteRAM(uint16_t RGB_Code);
 void LCD_Pins_Config(void);
 
+u16 ili9320_BGR2RGB(u16 c);
 void ili9320_SetPoint(u16 x,u16 y,u16 point);
 void GUI_Line(u16 x0, u16 y0, u16 x1, u16 y1,u16 color);
 u16 ili9320_GetPoint(int x, int y);

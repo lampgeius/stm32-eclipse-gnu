@@ -6,7 +6,7 @@
 *                       (c) Copyright 2002, Micrium Inc., Weston, FL
 *                       (c) Copyright 2002, SEGGER Microcontroller Systeme GmbH
 *
-*              µC/GUI is protected by international copyright laws. Knowledge of the
+*              ï¿½C/GUI is protected by international copyright laws. Knowledge of the
 *              source code may not be used to write a similar product. This file may
 *              only be used in accordance with a license and should not be redistributed
 *              in any way. We appreciate your understanding and fairness.
@@ -22,8 +22,9 @@ Purpose     : Configures abilities, fonts etc.
 #define GUICONF_H
 
 #define GUI_OS                    (0)  /* Compile with multitasking support */
-#define GUI_SUPPORT_TOUCH         (0)  /* Support a touch screen (req. win-manager) */
-#define GUI_SUPPORT_MOUSE         (0)  /* Support a mouse */
+#define GUI_SUPPORT_TOUCH         (1)  /* Support a touch screen (req. win-manager) */
+#define GUI_SUPPORT_MOUSE         (1)  /* Support a mouse */
+//#define GUI_SUPPORT_CURSOR 		(1)
 #define GUI_SUPPORT_UNICODE       (0)  /* Support mixed ASCII/UNICODE strings */
 
 #define GUI_DEFAULT_FONT          &GUI_Font6x8
@@ -35,9 +36,9 @@ Purpose     : Configures abilities, fonts etc.
 */
 
 #define GUI_WINSUPPORT            1  /* Window manager package available */
-#define GUI_SUPPORT_MEMDEV        0  /* Memory devices available */
-#define GUI_SUPPORT_AA            0  /* Anti aliasing available */
-#define LCD_SWAP_RB								1
+#define GUI_SUPPORT_MEMDEV        1  /* Memory devices available */
+#define GUI_SUPPORT_AA            1  /* Anti aliasing available */
+#define LCD_SWAP_RB								(1)
 /*********************************************************************
 *
 *         Configuration of App

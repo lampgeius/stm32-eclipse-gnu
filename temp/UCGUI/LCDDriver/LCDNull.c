@@ -6,7 +6,7 @@
 *                       (c) Copyright 2002, Micrium Inc., Weston, FL
 *                       (c) Copyright 2002, SEGGER Microcontroller Systeme GmbH
 *
-*              µC/GUI is protected by international copyright laws. Knowledge of the
+*              ï¿½C/GUI is protected by international copyright laws. Knowledge of the
 *              source code may not be used to write a similar product. This file may
 *              only be used in accordance with a license and should not be redistributed
 *              in any way. We appreciate your understanding and fairness.
@@ -30,8 +30,6 @@ Version-Date---Author-Explanation
 #include "lcdwty.h"
 //#include "WTY_engine.h"
 //#include "SZ_STM32F107VC_LIB.h"
-//#if (LCD_CONTROLLER == -2) \
-//    && (!defined(WIN32) | defined(LCD_SIMCONTROLLER))
 
 /*********************************************************************
 *
@@ -45,9 +43,7 @@ Version-Date---Author-Explanation
 *       LCD_L0_SetPixelIndex
 */
 void LCD_L0_SetPixelIndex(int x, int y, int PixelIndex) {
-  GUI_USE_PARA(x);
-  GUI_USE_PARA(y);
-  GUI_USE_PARA(PixelIndex);
+	ili9320_SetPoint(x,y,PixelIndex);
 }
 
 /*********************************************************************
@@ -55,9 +51,7 @@ void LCD_L0_SetPixelIndex(int x, int y, int PixelIndex) {
 *       LCD_L0_GetPixelIndex
 */
 unsigned int LCD_L0_GetPixelIndex(int x, int y) {
-  GUI_USE_PARA(x);
-  GUI_USE_PARA(y);
-  return 0;
+	return ili9320_GetPoint(x,y);
 }
 
 /*********************************************************************

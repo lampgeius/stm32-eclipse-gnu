@@ -6,7 +6,7 @@
 *                       (c) Copyright 2002, Micrium Inc., Weston, FL
 *                       (c) Copyright 2002, SEGGER Microcontroller Systeme GmbH
 *
-*              µC/GUI is protected by international copyright laws. Knowledge of the
+*              ï¿½C/GUI is protected by international copyright laws. Knowledge of the
 *              source code may not be used to write a similar product. This file may
 *              only be used in accordance with a license and should not be redistributed
 *              in any way. We appreciate your understanding and fairness.
@@ -19,7 +19,7 @@ Purpose     : Cursor routines of the graphics library
 
 #include <stddef.h>           /* needed for definition of NULL */
 #include "GUI_Private.h"
-
+#include "SZ_STM32F107VC_LIB.h"
 #if GUI_SUPPORT_CURSOR
 
 /*********************************************************************
